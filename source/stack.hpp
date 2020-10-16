@@ -13,6 +13,7 @@ private:
     int stackItem;
     int topo;
     int capacity;
+    stackItemClass ErrorCase;
 
 public:
     stackArray(int size = 10);
@@ -24,7 +25,7 @@ public:
     int Size();
     bool IsFull();
     bool IsEmpty();
-    void DestroyStack();
+    bool DestroyStack(stackArray stack);
 };
 
 stackArray::stackArray(int size) {
@@ -39,28 +40,41 @@ void stackArray::Push(int item) {
     pilha[topo].StackItem = item;
     cout << "Inserting:   " << item << endl;
     }
-    else throw std::runtime_error("Overflow");
+    else cout << "Stack is full";
 }
 
 stackItemClass stackArray::Pop() {
-    cout << "popping" << Top().StackItem << endl;
-    topo--;
-    return pilha[topo];
+    ErrorCase.StackItem = -2;
+    stackItemClass intermed;
+    if (!IsEmpty()){
+        cout << "popping" << Top().StackItem << endl;
+        intermed = pilha[topo];
+        topo = topo -1;
+        return intermed;
+    }
+    else
+    {
+        cout << "Stack is Empty";
+        return ErrorCase;
+    }
+    
 }
 
 stackItemClass stackArray::Top() {
+    ErrorCase.StackItem = -2;
     if (!IsEmpty()) {
         return pilha[topo];
     }
     else {
-        throw std::runtime_error("Empty Stack");
+        cout << "Stack is empty";
+        return ErrorCase;
     }
 }
 
 bool stackArray::SetSize(int newSize) {
     pilha = (stackItemClass*) realloc(pilha, newSize*sizeof(stackItemClass));
     capacity = newSize;
-    return 1;
+    return true;
 }
 
 int stackArray::Size() {
@@ -80,7 +94,8 @@ bool stackArray::IsFull() {
     else
         return 0;
 }
-void stackArray::DestroyStack(){
-    topo = -1;
-    return;
+bool stackArray::DestroyStack(stackArray stack){
+    delete stack.pilha;
+    stack.topo = -1;
+    return true;
 }
