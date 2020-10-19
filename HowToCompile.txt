@@ -1,0 +1,3 @@
+﻿Verifique a se seu computador tem um compilador de C++, no linux pode ser feito com o codigo g++ --version no terminal.
+
+Entre na pasta Source/src do arquivo e digite make no terminal.
